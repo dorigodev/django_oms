@@ -1,0 +1,43 @@
+{% load static %}
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Nova Geração</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'users/login.css' %}">
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    {% block content %}
+    <form action="{%url 'login_user' %}" method="post" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <div class="logo-container">
+            <img src="{% static '/assets/users/logoredondada.png' %}" alt="logo">
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+        <h3>Login</h3>
+        {% for field in form.visible_fields %}
+            {% for error in field.errors %}
+                <p>{{ error }}</p>
+            {% endfor %}
+        <label>
+            {{field.label}}
+        </label>
+        {{field}}
+        {% endfor %}
+        <button type="submit">Entrar</button>
+    </form>
+{% endblock %}
+</body>
+</html>

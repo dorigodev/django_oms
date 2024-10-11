@@ -1,0 +1,46 @@
+{% load static %}
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Produtos Naturais</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'users/register.css'%}">
+</head>
+<body>
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    {% block content %}
+    <form action="{% url 'create_user' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="content">
+            <div class="image-container">
+                <img src="{% static 'assets/users/fundo.jpeg' %}" alt="Imagem de fundo">
+            </div>
+            <div class="form-fields">
+                <div class="logo-container">
+                    <img class="logo" src="{% static 'assets/users/logoredondada.png' %}" alt="Logo">
+                </div>
+                <h3>Registro</h3>
+                {% for field in form.visible_fields %}
+                    {% for error in field.errors %}
+                    <p>{{ error }}</p>
+                    {% endfor %}
+                <label>
+                    {{field.label}}
+
+                </label>
+                {{field}}
+                {% endfor %}
+                <button type="submit">Registrar</button>
+            </div>
+        </div>
+    </form>
+    {%endblock%}
+</body>
+</html>

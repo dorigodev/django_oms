@@ -1,0 +1,22 @@
+services:
+  django_oms:
+    container_name: djangoapp-oms
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    volumes:
+      - ./djangooms:/djangooms
+      - ./data/web/static:/data/web/static/
+      - ./data/web/media:/data/web/media/
+    env_file:
+      - ./dotenv_files/.env
+    depends_on:
+      - psql-oms
+  psql-oms:
+    container_name: psql-oms
+    image: postgres:16.4-alpine3.20
+    volumes:
+      - ./data/postgres/data:/var/lib/postgresql/data/
+    env_file:
+      - ./dotenv_files/.env

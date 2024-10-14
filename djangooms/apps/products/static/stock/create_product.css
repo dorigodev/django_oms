@@ -1,0 +1,163 @@
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #E2DDCA;
+    }
+
+    nav {
+      background-color: #324436;
+      padding: 10px;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-left h1 {
+      margin-left: 25px;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      margin-left: 30px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-right: 58px;
+    }
+
+    .nav-right button {
+      display: block;
+      text-align: center;
+      background-color: #324436;
+      color: #fff;
+      border-radius: 3px;
+      transition: all ease 0.3s;
+      white-space: nowrap;
+      border: 0;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: normal;
+      font-size: large;
+      width: 100%;
+    }
+
+    .nav-right button:hover,
+    .nav-right button:focus {
+      background-color: #789a71;
+    }
+
+    main {
+      padding: 20px 30px;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.669);
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-top: 15px;
+      border-radius: 5px;
+    }
+
+    .lineInput {
+      display: grid;
+      margin-bottom: 10px;
+    }
+
+    input {
+      padding: 10px;
+      border: 1px solid #ccccccd0;
+      border-radius: 3px;
+      outline: 0;
+    }
+
+    button {
+      border: 0;
+      padding: 10px;
+      outline: 0;
+      background-color: #324436;
+      color: #fff;
+      border-radius: 3px;
+      font-weight: bold;
+      transition: all ease 0.3s;
+      width: 100px;
+      margin-right: 5px;
+    }
+
+    button:hover {
+      background-color: #789a71;
+      color: #000;
+    }
+
+    button:focus {
+      background-color: #548e637d;
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 10px;
+    }
+
+    .content {
+      margin-top: 15px;
+    }
+
+    table {
+      border-collapse: collapse;
+      border: 1px solid #548e637d;
+      width: 100%;
+    }
+
+    table th {
+      background-color: rgb(203, 213, 192);
+    }
+
+    table tbody {
+      background-color: rgb(255, 255, 255);
+      padding: 1px 5px;
+      text-align: left;
+    }
+
+    table th,
+    td {
+      padding: 1px 5px;
+      text-align: left;
+    }
+
+    table td img {
+      width: 30px;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+  a {
+      text-decoration: none;
+      color: #FFFFFF;
+  }
+  span{
+      font-size: 21px;
+  }
+  .store_name{
+      text-transform: uppercase;
+      font-weight: bold;
+  }

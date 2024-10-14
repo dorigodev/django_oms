@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from apps.users.models import StoreUser
 from django.contrib.auth import get_user_model
 
+
 class registerForm(UserCreationForm):
     store_name = forms.CharField(
         label='Nome da Loja',
@@ -66,20 +67,21 @@ class registerForm(UserCreationForm):
             else:
                 return password2
 
-
     def clean_store_CNPJ(self):
+        cnaes_permitidos = ['8610101', '8630501', '8630502', '8650003', '8630505',
+                            '8690903', '4729699', '4773300', '4775002', '4789099']
         store_CNPJ = self.cleaned_data['store_CNPJ']
-        exists = StoreUser.objects.filter(cnpj=store_CNPJ).exists()
-        if exists:
+        if StoreUser.objects.filter(cnpj=store_CNPJ).exists():
             raise forms.ValidationError('CNPJ já cadastrado')
         response = requests.get(f'https://brasilapi.com.br/api/cnpj/v1/{store_CNPJ}')
         if response.status_code == 200:
             data = response.json()
-            if str(data['cnae_fiscal']) != '4729699':
+            if str(data['cnae_fiscal']) not in cnaes_permitidos:
                 raise forms.ValidationError('O Cnae da sua empresa não é permitido para compras ')
         else:
             raise forms.ValidationError('Não foi possível validar o CNPJ. Verifique o número e tente novamente.')
         return store_CNPJ
+
 
 class loginForm(forms.Form):
     store_email_login = forms.EmailField(
@@ -88,7 +90,7 @@ class loginForm(forms.Form):
         max_length=70,
         widget=forms.EmailInput(attrs={'class': 'form-control',
                                        'placeholder': 'Digite o e-mail da sua loja'})
-        )
+    )
 
     store_password_login = forms.CharField(
         label='Senha para acesso do painel da sua loja',
@@ -96,6 +98,4 @@ class loginForm(forms.Form):
         max_length=70,
         widget=forms.PasswordInput(attrs={'class': 'form-control',
                                           'placeholder': 'Digite sua senha'})
-        )
-
-
+    )

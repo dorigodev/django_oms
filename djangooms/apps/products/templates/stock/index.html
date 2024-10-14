@@ -1,0 +1,93 @@
+{% load static %}
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - Produtos Naturais</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registro - Produtos Naturais</title>
+
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'stock/index.css'%}">
+    </head>
+
+<body>
+    <nav>
+        <div class="nav-left">
+            <img src="{% static 'assets/stock/logonvg.png' %}" alt="Logo" class="logo">
+            <h1>Nova Geração</h1>
+        </div>
+        <div class="nav-right">
+            <button><a href="{%url 'create_product'%}">Adicionar Produto</a></button>
+            <button><a href="{%url 'logout' %}">Sair</a></button>
+            <form action="{% url 'search_product'%}">
+                    <input type="search" name="search" placeholder="Pesquisar produtos...">
+                    <button type="submit"><i class="fas fa-search"></i></button>
+                </form>
+        </div>
+    </nav>
+    {% block content %}
+    <main>
+        <div class="section-stats">
+            <!-- Card 1: Quantidade de variedade dos produtos -->
+            <div class="stat-card">
+                <h3>Quantidade de Variedade dos Produtos</h3>
+                <p>{{products_variety}} Produtos</p>
+            </div>
+            <div class="stat-card">
+                <h3>Valor Total dos Produtos</h3>
+                <p>R$ {{total_price}}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Quantidade Total de Estoque</h3>
+                <p>{{quantity}} produtos </p>
+            </div>
+        </div>
+        <section class="section-products">
+            <div class="container">
+                <div class="row justify-content-center text-center">
+                    <div class="col-md-8 col-lg-6">
+                        <div class="header">
+                            <h2>Tabela de Produtos</h2>
+                        </div>
+                    </div>
+                </div>
+            <div class="row">
+                        {% if products %}
+                            {% for product in products %}
+                        <div id="product-1" class="single-product">
+                            <div class="part-1">
+                                <img src="{{product.get_photo_url}}" alt="{{product.productPhoto}}">
+                                <ul>
+                                    <li><a href="{% url 'update_product' product.id %}"><i class="fas fa-pen"></i></a></li>
+                                    <li><a href="{% url 'delete_product' product.id %}"><i class="fas fa-trash"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="part-2">
+                                <h3 class="product-title"> ID: {{ product.id}}</h3>
+                                <h3 class="product-title">{{ product.name }}</h3>
+                                <p class="product-description">Descrição: {{ product.description}}</p>
+                                <p class="product-description">Preço: R$ {{ product.price }}</p>
+                                <p class="product-description">Em estoque: {{ product.quantity }} </p>
+                                <p class="product-description">Data de Compra: {{ product.get_date_formated }} </p>
+                            </div>
+                        </div>
+                            {% endfor %}
+                    {% endif %}
+                        </div>
+                        </div>
+        </section>
+    </main>
+{%endblock%}
+</body>
+
+</html>

@@ -4,11 +4,15 @@ import requests
 import json
 from django.contrib.auth.forms import UserCreationForm
 # Pesquisar sobre: from django.contrib.auth import password_validation
-from apps.users.models import StoreUser
+from apps.users.models import BuyerUser
 from django.contrib.auth import get_user_model
 
 
-class registerForm(UserCreationForm):
+class BuyerRegistrationForm(form.ModelForm):
+    class Meta:
+        model = BuyerUser
+        exclude = ['active']
+
     store_name = forms.CharField(
         label='Nome da Loja',
         required=True,
@@ -47,10 +51,6 @@ class registerForm(UserCreationForm):
                                           'placeholder': 'Digite sua senha'})
     )
 
-    class Meta:
-        model = StoreUser
-        fields = ['store_name', 'store_email', 'store_CNPJ', ]
-
     def clean_store_email(self):
         store_email = self.cleaned_data.get('store_email', '')
         exists = StoreUser.objects.filter(email=store_email).exists()
@@ -83,7 +83,7 @@ class registerForm(UserCreationForm):
         return store_CNPJ
 
 
-class loginForm(forms.Form):
+class LoginForm(forms.Form):
     store_email_login = forms.EmailField(
         label='Email da loja',
         required=True,
@@ -99,3 +99,7 @@ class loginForm(forms.Form):
         widget=forms.PasswordInput(attrs={'class': 'form-control',
                                           'placeholder': 'Digite sua senha'})
     )
+
+class BuyerRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = BuyerUser

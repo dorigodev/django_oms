@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+from django.contrib.auth.models import AbstractUser, BaseUserManager, UserManager
 
 # Create your models here.
 
@@ -32,17 +32,21 @@ class SupplierUser(AbstractUser):
     def __str__(self):
         return self.username
 
-class AdressUser(models.model):
+class AdressUser(models.Model):
     cep = models.CharField(max_length=10)
-    number = models.IntegerField(max_length=100)
-    complement = models.CharField(max_length=100)
+    number = models.IntegerField()
+    complement = models.CharField(max_length=100, blank=True, null=True)
 
+    def __str__(self):
+        return self.cep
 
 class BuyerUser(models.Model):
-    user = models.OneToOneField(SupplierUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(SupplierUser, on_delete=models.CASCADE, related_name='buyer_user', primary_key=True)
     cnpj = models.CharField(max_length=15, unique=True)
-    adress = models.OneToOneField(AdressUser, on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=15)
+    adress = models.OneToOneField(AdressUser, on_delete=models.CASCADE, related_name='buyer_adr')
     active = models.BooleanField(default=True)
 
-
+    def __str__(self):
+        return self.cnpj
 

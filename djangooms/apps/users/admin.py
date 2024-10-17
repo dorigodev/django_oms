@@ -1,16 +1,25 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from apps.users.models import StoreUser
+from apps.users.models import SupplierUser, AdressUser, BuyerUser
+
+
 # Register your models here.
 
 class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'cnpj')
-    search_fields = ('cnpj', 'email')
-    fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('email', 'cnpj')}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
-        ('Important dates', {'fields': ('last_login', 'date_joined')}),
-    )
+    list_display = ('id', 'email', 'username',)
+    search_fields = ('email', 'id')
 
-admin.site.register(StoreUser, CustomUserAdmin)
+
+class BuyerUserAdmin(admin.ModelAdmin):
+    list_display = ('user', 'cnpj', 'phone_number', 'adress', 'active')
+    search_fields = ('user', 'cnpj', 'phone_number', 'adress')
+
+
+class AdressUserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'cep', 'number',)
+    search_fields = ('id', 'cep')
+
+
+admin.site.register(SupplierUser, CustomUserAdmin)
+admin.site.register(BuyerUser, BuyerUserAdmin)
+admin.site.register(AdressUser, AdressUserAdmin)

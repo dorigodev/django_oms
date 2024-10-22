@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from djangooms.apps.products.models import Product
+from apps.products.models import Product
+from apps.users.models import BuyerUser
+import datetime
 
 
 # Create your models here.
 class OrderItem(models.Model):
-    item = models.ForeignKey(to=Product, on_delete=models.CASCADE, null=False, blank=False)
+    item = models.ForeignKey(Product, on_delete=models.CASCADE, null=False, blank=False)
     quantity = models.IntegerField(null=False, blank=False)
 
     def __str__(self):
@@ -13,6 +15,7 @@ class OrderItem(models.Model):
 
     def get_total_item_price(self):
         return self.item.price * self.quantity
+
 
 class Order(models.Model):
     STATUS_CHOICES = (
@@ -22,10 +25,23 @@ class Order(models.Model):
         ('Canceled', 'Canceled'),
         ('Finished', 'Finished'),
     )
+
+    SHIPPING_METHOD = (
+        ('Envio por Correios', 'Envio por Correios'),
+        ('Retirada', 'Retirada'),
+    )
+
     # ID (Já é colocado automaticamente)
-    # Lista do que comprou (FK)
-    shoppinglist = models.ManyToManyField(OrderItem, max_length=200)
+    id = models.AutoField(primary_key=True)
     # loja que comprou
-    store = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=False, blank=False)
+    store = models.ForeignKey(BuyerUser, on_delete=models.CASCADE, null=False, blank=False, related_name='buyer_user')
+    # Lista do que comprou (FK)
+    shoppinglist = models.ManyToManyField(OrderItem, max_length=200, related_name='orderlist')
+    # Data que foi realizada o pedido
+    dateOrder = models.DateTimeField(auto_now=True, null=False, blank=False)
+    # Data que foi concluida
+    completionDate = models.DateTimeField(null=True, blank=True)
+    # Forma de envio
+    shipping = models.CharField(choices=SHIPPING_METHOD, null=False, blank=False)
     # status
-    status = models.IntergerFiled(choices=STATUS_CHOICES, null=False, blank=False)
+    status = models.CharField(choices=STATUS_CHOICES, null=False, blank=False)

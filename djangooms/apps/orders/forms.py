@@ -22,3 +22,9 @@ OrdemItemFormSet = modelformset_factory(
     fields=('item', 'quantity'),
     extra=1
 )
+
+
+class OrderUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ('status',)

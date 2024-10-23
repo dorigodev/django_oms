@@ -1,9 +1,12 @@
 from django.contrib import messages
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render
 from django.shortcuts import redirect
 from apps.users.forms import LoginForm
 from apps.users.forms import SupplierForm
 from apps.users.forms import AdressUserForm
+from apps.users.forms import changePasswordForm
 from apps.users.forms import BuyerUserForm
 from django.template import RequestContext
 from django.contrib import auth
@@ -14,6 +17,8 @@ from apps.users.models import BuyerUser
 from apps.users.models import SupplierUser
 from apps.users.models import AdressUser
 from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy
+
 
 
 # Create your views here.
@@ -47,12 +52,12 @@ def create_user(request):
         if Supplier_Form.is_valid() and AdressUser_Form.is_valid() and BuyerUser_Form.is_valid():
             store_name = Supplier_Form.cleaned_data.get('store_name')
             store_email = Supplier_Form.cleaned_data.get('store_email')
-            password = Supplier_Form.cleaned_data.get('password2')
             store_CEP = AdressUser_Form.cleaned_data.get('store_CEP')
             store_number = AdressUser_Form.cleaned_data.get('store_number')
             store_complement = AdressUser_Form.cleaned_data.get('store_complement')
             store_CNPJ = BuyerUser_Form.cleaned_data.get('store_CNPJ')
             store_phone = BuyerUser_Form.cleaned_data.get('store_phone')
+            password = store_CNPJ[:5]
             new_user = SupplierUser.objects.create_user(username=store_name, email=store_email, password=password)
             new_adress = AdressUser.objects.create(cep=store_CEP, number=store_number,
                                                    complement=store_complement)
@@ -72,3 +77,9 @@ def logout_user(request):
     auth.logout(request)
     messages.success(request, 'Logout efetuado com sucesso!')
     return redirect("login_user")
+
+class ChangePasswordView(PasswordChangeView):
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('')
+    template_name = 'users/change_password.html'
+

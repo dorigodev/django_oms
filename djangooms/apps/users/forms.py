@@ -13,7 +13,7 @@ from django.contrib.auth import get_user_model
 class SupplierForm(forms.ModelForm):
     class Meta:
         model = SupplierUser
-        fields = 'store_name', 'store_email', 'password1', 'password2'
+        fields = 'store_name', 'store_email',
 
     store_name = forms.CharField(
         label='Nome da Loja',
@@ -30,29 +30,6 @@ class SupplierForm(forms.ModelForm):
         widget=forms.EmailInput(attrs={'class': 'form-control',
                                        'placeholder': 'Digite o e-mail da sua loja'})
     )
-
-    password1 = forms.CharField(
-        label='Senha para acesso do painel da sua loja',
-        required=True,
-        widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                          'placeholder': 'Digite sua senha'})
-    )
-
-    password2 = forms.CharField(
-        label='Digite novamente a senha para acesso do painel',
-        required=True,
-        widget=forms.PasswordInput(attrs={'class': 'form-control',
-                                          'placeholder': 'Digite sua senha'})
-    )
-
-    def clean_password2(self):
-        password1 = self.cleaned_data['password1']
-        password2 = self.cleaned_data['password2']
-        if password1 and password2:
-            if password1 != password2:
-                raise forms.ValidationError('Senhas diferentes uma da outra, verifique novamente')
-            else:
-                return password2
 
     def clean_store_email(self):
         store_email = self.cleaned_data.get('store_email', '')
@@ -114,7 +91,7 @@ class BuyerUserForm(forms.ModelForm):
     )
 
     def clean_store_CNPJ(self):
-        cnaes_permitidos = ['8610101', '8630501', '8630502', '8650003', '8630505',
+        cnaes_permitidos = ['8610101', '8630501', '8630502', '8650003', '8650002', '8630505',
                             '8690903', '4729699', '4773300', '4775002', '4789099']
         store_CNPJ = self.cleaned_data['store_CNPJ']
         if BuyerUser.objects.filter(cnpj=store_CNPJ).exists():
@@ -145,3 +122,34 @@ class LoginForm(forms.Form):
         widget=forms.PasswordInput(attrs={'class': 'form-control',
                                           'placeholder': 'Digite sua senha'})
     )
+
+class changePasswordForm(forms.Form):
+    old_password = forms.CharField(
+        label='Senha atual',
+        required=True,
+        widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                          'placeholder': 'Digite sua senha atual'})
+    )
+
+    password1 = forms.CharField(
+        label='Nova Senha',
+        required=True,
+        widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                          'placeholder': 'Digite sua nova senha'})
+    )
+
+    password2 = forms.CharField(
+        label='Digite novamente a senha para acesso do painel',
+        required=True,
+        widget=forms.PasswordInput(attrs={'class': 'form-control',
+                                          'placeholder': 'Digite novamente sua nova senha'})
+    )
+
+    def clean_password2(self):
+        password1 = self.cleaned_data['password1']
+        password2 = self.cleaned_data['password2']
+        if password1 and password2:
+            if password1 != password2:
+                raise forms.ValidationError('Senhas diferentes uma da outra, verifique novamente')
+            else:
+                return password2

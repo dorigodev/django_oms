@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from apps.products.models import Product
 from apps.users.models import BuyerUser
-import datetime
+from datetime import datetime
 
 
 # Create your models here.
@@ -38,10 +38,10 @@ class Order(models.Model):
     # Lista do que comprou (FK)
     shoppinglist = models.ManyToManyField(OrderItem, max_length=200, related_name='orderlist')
     # Data que foi realizada o pedido
-    dateOrder = models.DateTimeField(auto_now=True, null=False, blank=False)
+    dateOrder = models.DateTimeField(auto_now_add=True, null=False, blank=False)
     # Data que foi concluida
     completionDate = models.DateTimeField(null=True, blank=True)
     # Forma de envio
     shipping = models.CharField(choices=SHIPPING_METHOD, null=False, blank=False)
     # status
-    status = models.CharField(choices=STATUS_CHOICES, null=False, blank=False)
+    status = models.CharField(choices=STATUS_CHOICES, null=False, blank=False, default='Pending')

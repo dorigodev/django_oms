@@ -17,13 +17,14 @@ Including another URLconf
 from django.urls import path
 from django.urls import include
 from django.conf.urls.static import static
-from apps.users.views import create_user, login_user, logout_user
+from apps.users.views import create_user, login_user, logout_user, ChangePasswordView
 from django.conf import settings
 
 urlpatterns = [
     path('register', create_user, name="create_user"),
     path('login', login_user, name="login_user"),
     path('logout', logout_user, name='logout'),
+    path('change_password', ChangePasswordView.as_view(), name='change_password' )
 ]
 
 if settings.DEBUG:

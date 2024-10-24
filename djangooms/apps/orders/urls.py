@@ -6,6 +6,7 @@ from django.conf import settings
 from apps.orders.views import OrderAddView, index
 from apps.orders.views import update_order
 
+app_name = 'orders'
 urlpatterns = [
     path('create_order', OrderAddView.as_view(), name='create_order'),
     path('view_order', index, name='view_order'),

@@ -9,6 +9,8 @@ from apps.products.views import update_product
 from apps.products.views import delete_product
 from apps.products.views import search_product
 
+app_name = 'products'
+
 urlpatterns = [
     path('', index, name='index'),
     path('create_product', create_product, name='create_product'),

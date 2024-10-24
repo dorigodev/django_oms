@@ -20,6 +20,8 @@ from django.conf.urls.static import static
 from apps.users.views import create_user, login_user, logout_user, ChangePasswordView
 from django.conf import settings
 
+app_name = 'users'
+
 urlpatterns = [
     path('register', create_user, name="create_user"),
     path('login', login_user, name="login_user"),

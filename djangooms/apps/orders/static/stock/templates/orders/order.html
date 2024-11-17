@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Pedido</title>
+    <link rel="stylesheet" href="order.css">
+</head>
+<body style="
+    background-image: linear-gradient(rgba(226, 221, 202, 0.7), rgba(226, 221, 202, 0.7)), url('/djangooms/apps/orders/static/stock/assets/fundomain.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+">
+
+    <main>
+        <form id="form-container" method="POST" enctype="multipart/form-data">
+            <div class="card">
+                <h2>Formulário de Pedido</h2>
+
+                <!-- Parte superior: Loja e Forma de Retirada -->
+                <div class="lineInput">
+                    <div>
+                        <label for="store">Loja</label>
+                        <select id="store" name="store" required>
+                            <option value="">Selecione</option>
+                            <option value="store1">Loja 1</option>
+                            <option value="store2">Loja 2</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="pickup">Forma de Retirada</label>
+                        <select id="pickup" name="pickup" required>
+                            <option value="">Selecione</option>
+                            <option value="store">Retirar na loja</option>
+                            <option value="delivery">Entrega em casa</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Parte inferior: Produto e Quantidade (vai ser duplicado quando clicar em adicionar novo produto) -->
+                <div class="order-products" id="order-products">
+                    <div class="lineInput product-line">
+                        <div>
+                            <label for="product">Produto</label>
+                            <select class="product" name="product" required>
+                                <option value="">Selecione</option>
+                                <option value="product1">Produto 1</option>
+                                <option value="product2">Produto 2</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="quantity">Quantidade</label>
+                            <input type="number" class="quantity" name="quantity" min="1" value="1" required>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="add-form" type="button">Adicionar</button>
+
+                <div class="button-group">
+                    <button class="cancelar">Cancelar</button>
+                    <button type="submit">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <script>
+        const addButton = document.querySelector("#add-form");
+        const orderProducts = document.querySelector("#order-products");
+        
+        addButton.addEventListener('click', addProduct);
+
+        function addProduct(e) {
+            e.preventDefault();
+
+            // Clonando a última linha de produto e quantidade
+            const lastProductLine = orderProducts.querySelector(".product-line");
+            const newProductLine = lastProductLine.cloneNode(true);
+            orderProducts.appendChild(newProductLine);
+        }
+    </script>
+</body>
+</html>

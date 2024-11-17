@@ -19,8 +19,16 @@
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'stock/index.css'%}">
     </head>
+</head>
 
-<body>
+<body style="
+    background-image: linear-gradient(rgba(226, 221, 202, 0.7), rgba(226, 221, 202, 0.7)), url('/djangooms/apps/orders/static/stock/assets/fundomain.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+">
     <nav>
         <div class="nav-left">
             <img src="{% static 'assets/stock/logonvg.png' %}" alt="Logo" class="logo">
@@ -28,6 +36,8 @@
         </div>
         <div class="nav-right">
             <button><a href="{%url 'create_product'%}">Adicionar Produto</a></button>
+            <button><a href="{%url '' %}">Produtos</a></button>
+            <button><a href="{%url '' %}">Pedidos</a></button>
             <button><a href="{%url 'logout' %}">Sair</a></button>
             <form action="{% url 'search_product'%}">
                     <input type="search" name="search" placeholder="Pesquisar produtos...">

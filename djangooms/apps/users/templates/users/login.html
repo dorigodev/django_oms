@@ -16,7 +16,7 @@
         <div class="shape"></div>
     </div>
     {% block content %}
-    <form action="{%url 'login_user' %}" method="post" enctype="multipart/form-data" >
+    <form action="{%url 'users:login_user' %}" method="post" enctype="multipart/form-data" >
         {% csrf_token %}
         <div class="logo-container">
             <img src="{% static '/assets/users/logoredondada.png' %}" alt="logo">

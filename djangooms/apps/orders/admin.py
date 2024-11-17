@@ -6,7 +6,6 @@ from apps.orders.models import Order
 class ListingOrderAdmin(admin.ModelAdmin):
     list_display = ('id', "dateOrder", 'completionDate', 'shipping', 'status')
     list_display_links = ('id',)
-    search_fields = ('id', )
-
+    search_fields = ('id',)
 
 admin.site.register(Order, ListingOrderAdmin)

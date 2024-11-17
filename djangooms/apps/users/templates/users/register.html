@@ -16,7 +16,7 @@
         <div class="shape"></div>
     </div>
     {% block content %}
-    <form action="{% url 'create_user' %}" method="POST" enctype="multipart/form-data">
+    <form action="{% url 'users:create_user' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="content">
             <div class="image-container">

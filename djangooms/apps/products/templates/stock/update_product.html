@@ -16,9 +16,9 @@
       <h1>Nova Geração</h1>
     </div>
     <div class="nav-right">
-      <button><a href="{%url 'index'%}">Tabela de Produto</a></button>
-      <button><a href="{%url 'create_product' %}">Adicionar Produto</a></button>
-      <button><a href="{%url 'logout'%}">Sair</a></button>
+      <button><a href="{%url 'products:index'%}">Tabela de Produto</a></button>
+      <button><a href="{%url 'products:create_product' %}">Adicionar Produto</a></button>
+      <button><a href="{%url 'users:logout'%}">Sair</a></button>
     </div>
   </nav>
 {%block content%}
@@ -29,7 +29,7 @@
     </div>
 
     <div class="card">
-      <form action="{% url 'update_product' product_id %}" method="POST" enctype="multipart/form-data">
+      <form action="{% url 'products:update_product' product_id %}" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           {%for field in form.visible_fields%}
           <div class="lineInput">
@@ -39,7 +39,7 @@
           {%endfor%}
               <div class="button-group">
             <button type="submit">Atualizar</button>
-            <button><a href="{% url 'index'%}">Cancelar</a></button>
+            <button><a href="{% url 'products:index'%}">Cancelar</a></button>
           </div>
       </form>
 

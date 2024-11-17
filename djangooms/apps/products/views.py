@@ -12,7 +12,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 
 # Create your views here.
-@staff_member_required
+
 def index(request):
     if not request.user.is_authenticated:
         messages.error(request, 'You are not logged in!')
@@ -46,7 +46,7 @@ def index(request):
 
     return render(request, 'stock/index.html', {'products': products, 'products_variety':products_count, 'total_price':new_total_stock_price, 'quantity': quantity_total})
 
-@staff_member_required
+
 def create_product(request):
     products = Product.objects.filter(disponibility=True)
     Form = ProductForm()
@@ -61,7 +61,6 @@ def create_product(request):
             messages.success(request, 'Product successfully created')
             return redirect('index')
     return render(request, 'stock/create_product.html', {'form':Form, 'products':products})
-@staff_member_required
 def update_product(request, product_id):
     product_object = Product.objects.get(id=product_id)
     form = ProductForm(instance=product_object)
@@ -72,14 +71,14 @@ def update_product(request, product_id):
             messages.success(request, 'Product successfully updated')
             return redirect('index')
     return render(request, 'stock/update_product.html', {'form':form, 'product':product_object, 'product_id':product_id})
-@staff_member_required
+
 def delete_product(request, product_id):
     product_object = Product.objects.get(id=product_id)
     product_object.disponibility = False
     product_object.save()
     messages.success(request, 'Producto deletado com sucesso')
     return redirect("index")
-@staff_member_required
+
 def search_product(request):
     if not request.user.is_authenticated:
         messages.error(request, 'You are not logged in!')

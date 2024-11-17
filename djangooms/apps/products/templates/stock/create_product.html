@@ -17,10 +17,10 @@
     </div>
     <div class="nav-right">
       <button>
-        <a href="{% url 'index' %}"> Tabela de Produto </a>
+        <a href="{% url 'products:index' %}"> Tabela de Produto </a>
       </button>
       <button>
-        <a href="{% url 'logout' %}"> Sair </a>
+        <a href="{% url 'users:logout' %}"> Sair </a>
       </button>
     </div>
   </nav>
@@ -31,7 +31,7 @@
       <span>Você está realizando a compra pela loja <span class="store_name">{{user}}</span>, para realizar por outra loja por favor realiaze o login novamente</span>
     </div>
     <div class="card">
-      <form action="{% url 'create_product' %}" method="POST" enctype="multipart/form-data">
+      <form action="{% url 'products:create_product' %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in form.visible_fields %}
         <div class="lineInput">
@@ -43,7 +43,7 @@
 
       <div class="button-group">
         <button type="submit">Adicionar</button>
-        <button><a href="{% url 'index'%}">Cancelar</a></button>
+        <button><a href="{% url 'products:index'%}">Cancelar</a></button>
       </div>
     </div>
 

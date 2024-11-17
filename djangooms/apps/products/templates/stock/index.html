@@ -27,9 +27,9 @@
             <h1>Nova Geração</h1>
         </div>
         <div class="nav-right">
-            <button><a href="{%url 'create_product'%}">Adicionar Produto</a></button>
-            <button><a href="{%url 'logout' %}">Sair</a></button>
-            <form action="{% url 'search_product'%}">
+            <button><a href="{%url 'products:create_product'%}">Adicionar Produto</a></button>
+            <button><a href="{%url 'users:logout' %}">Sair</a></button>
+            <form action="{% url 'products:search_product'%}">
                     <input type="search" name="search" placeholder="Pesquisar produtos...">
                     <button type="submit"><i class="fas fa-search"></i></button>
                 </form>
@@ -68,8 +68,8 @@
                             <div class="part-1">
                                 <img src="{{product.get_photo_url}}" alt="{{product.productPhoto}}">
                                 <ul>
-                                    <li><a href="{% url 'update_product' product.id %}"><i class="fas fa-pen"></i></a></li>
-                                    <li><a href="{% url 'delete_product' product.id %}"><i class="fas fa-trash"></i></a></li>
+                                    <li><a href="{% url 'products:update_product' product.id %}"><i class="fas fa-pen"></i></a></li>
+                                    <li><a href="{% url 'products:delete_product' product.id %}"><i class="fas fa-trash"></i></a></li>
                                 </ul>
                             </div>
                             <div class="part-2">

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos</title>
+    <link rel="stylesheet" href="order_list.css"> 
+</head>
+<body>
+
+<!-- Navbar -->
+<nav>
+    <div class="nav-left">
+        <img src="/djangooms/apps/orders/static/stock/assets/logonvg.png" alt="Logo" class="logo">
+        <h1>Nova Geração</h1>
+    </div>
+    <div class="nav-right">
+        <button><a>Home</a></button>
+        <button><a href="{%url 'create_product'%}">Adicionar Produto</a></button>
+        <button><a href="order.html" >Pedidos</a></button>
+        <button><a href="{%url 'logout' %}">Sair</a></button>
+    </div>
+</nav>
+
+<main>
+    <!-- Tabela de Pedidos -->
+    <div class="card">
+        <h2>Lista de Pedidos</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th class="center">ID</th>
+                    <th class="center">Loja</th>
+                    <th class="center">Lista de Compras</th>
+                    <th class="center">Data do Pedido</th>
+                    <th class="center">Data de Conclusão</th>
+                    <th class="center">Envio</th>
+                    <th class="center">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="center">1</td>
+                    <td class="center">Loja A</td>
+                    <td class="center">2 de Item 1</td>
+                    <td class="center">2 de Item 1</td>
+                    <td class="center">2024-11-01</td>
+                    <td class="center">Enviado</td>
+                    <!-- Link que chama o modal -->
+                    <td class="center">
+                        <span class="update-status" onclick="openModal(1)">Concluído</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="center">2</td>
+                    <td class="center">Loja B</td>
+                    <td class="center">1 de Item 3</td>
+                    <td class="center">2024-11-02</td>
+                    <td class="center">2024-11-06</td>
+                    <td class="center">Pendente</td>
+                    <!-- Link que chama o modal -->
+                    <td class="center">
+                        <span class="update-status" onclick="openModal(2)">Em Andamento</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<!-- Modal para Atualizar Status e Envio -->
+<div id="statusModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Atualizar Status do Pedido</h3>
+        <form id="statusForm">
+
+            <label for="newEnvio">Novo Envio:</label>
+            <select id="newEnvio" name="newEnvio">
+                <option value="enviado">Enviado</option>
+                <option value="pendente">Pendente</option>
+            </select><br><br>
+
+            <label for="newStatus">Novo Status:</label>
+            <select id="newStatus" name="newStatus">
+                <option value="concluido">Concluído</option>
+                <option value="em_andamento">Em Andamento</option>
+            </select><br><br>
+
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Função para abrir o modal e preencher os campos
+    function openModal(orderId) {
+        document.getElementById('statusModal').style.display = "block";
+    }
+
+    // Função para fechar o modal
+    function closeModal() {
+        document.getElementById('statusModal').style.display = "none";
+    }
+
+    // Fechar o modal se o usuário clicar fora da janela modal
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('statusModal')) {
+            closeModal();
+        }
+    }
+</script>
+
+</body>
+</html>

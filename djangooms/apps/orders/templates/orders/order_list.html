@@ -1,55 +1,87 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
 <head>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos</title>
+    <link rel="stylesheet" href="{% static 'orders/order_list.css' %}">
 </head>
+<body>
 
-{% for item in order %}
+<!-- Navbar -->
+<nav>
+    <div class="nav-left">
+        <img src="{% static 'assets/img.png' %}" alt="Logo" class="logo">
+        <h1>Nova Geração</h1>
+    </div>
+    <div class="nav-right">
+        <button><a href="{% url 'orders:view_order' %}"> Home</a></button>
+        <button><a href="{%url 'products:create_product'%}">Adicionar Produto</a></button>
+        <button><a href="{% url 'orders:create_order' %}" >Pedidos</a></button>
+        <button><a href="{%url 'users:logout' %}">Sair</a></button>
+    </div>
+</nav>
+<main>
     <table class="table table-bordered">
         <thead>
           <tr>
-            <th scope="col">>ID</th>
-            <th scope="col">>Store</th>
-            <th scope="col">>Shoppinglist</th>
-            <th scope="col">>dateOrder</th>
-            <th scope="col">>completionDate</th>
-            <th scope="col">>shipping</th>
-            <th scope="col">>status</th>
+            <th scope="col">ID do pedido</th>
+            <th scope="col">CNPJ da Loja</th>
+            <th scope="col">Lista de itens que foram pedidos</th>
+            <th scope="col">Data da compra</th>
+            <th scope="col">Tipo de entrega.</th>
           </tr>
         </thead>
         <tbody id="tbody">
+        {% for item in order %}
           <tr>
             <td class="center">{{item.id}}</td>
             <td class="center">{{item.store}}</td>
             <td class="center">
                 {% for order_item in item.shoppinglist.all %}
-                  <li> {{ order_item.quantity }} of {{ order_item.item.name }}</li>
+                  <li> {{ order_item.quantity }} unidades de {{ order_item.item.name }}</li>
                 {% endfor %}
             </td>
             <td class="center">{{item.dateOrder}}</td>
-            <td class="center">{{item.completionDate}}</td>
             <td class="center">{{item.shipping}}</td>
-            <td class="center">{{item.status}}</td>
           </tr>
+        {% endfor %}
         </tbody>
       </table>
-{% endfor %}
 
-{% for item in orderItem %}
-<table class="table table-bordered">
-        <thead>
-          <tr>
-            <th class="center">ID</th>
-            <th class="center">Item</th>
-            <th class="center">Quantity</th>
-            <th class="center">Total</th>
-          </tr>
-        </thead>
-        <tbody id="tbody">
-          <tr>
-            <td class="center">{{item.id}}</td>
-            <td class="center">{{item.item}}</td>
-            <td class="center">{{item.quantity}}</td>
-            <td class="center">{{item.total}}</td>
-          </tr>
-        </tbody>
-      </table>
-{% endfor %}
+<!-- Modal para Atualizar Status e Envio -->
+<div id="statusModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Atualizar Status do Pedido</h3>
+        <form method="POST" id="statusForm">
+            {% for field in updateForm %}
+                {{ field }} <br><br>
+            {% endfor %}
+            <button type="submit">Salvar</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Função para abrir o modal e preencher os campos
+    function openModal(orderId) {
+        document.getElementById('statusModal').style.display = "block";
+    }
+
+    // Função para fechar o modal
+    function closeModal() {
+        document.getElementById('statusModal').style.display = "none";
+    }
+
+    // Fechar o modal se o usuário clicar fora da janela modal
+    window.onclick = function(event) {
+        if (event.target == document.getElementById('statusModal')) {
+            closeModal();
+        }
+    }
+</script>
+</main>
+
+

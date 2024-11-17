@@ -16,7 +16,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 def index(request):
     if not request.user.is_authenticated:
         messages.error(request, 'You are not logged in!')
-        return redirect('login_user')
+        return redirect('users:login_user')
     products = Product.objects.filter(disponibility=True)
     # faz a contagem dos produtos
     products_count = products.count()
@@ -52,14 +52,14 @@ def create_product(request):
     Form = ProductForm()
     if not request.user.is_authenticated:
         messages.error(request, 'You are not logged in!')
-        return redirect('login')
+        return redirect('users:login_user')
     if request.method == 'POST':
         form = ProductForm(request.POST, request.FILES)
         if form.is_valid():
             form = form.save(commit=False)
             form.save()
             messages.success(request, 'Product successfully created')
-            return redirect('index')
+            return redirect('products:index')
     return render(request, 'stock/create_product.html', {'form':Form, 'products':products})
 def update_product(request, product_id):
     product_object = Product.objects.get(id=product_id)
@@ -69,7 +69,7 @@ def update_product(request, product_id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Product successfully updated')
-            return redirect('index')
+            return redirect('products:index')
     return render(request, 'stock/update_product.html', {'form':form, 'product':product_object, 'product_id':product_id})
 
 def delete_product(request, product_id):
@@ -77,12 +77,12 @@ def delete_product(request, product_id):
     product_object.disponibility = False
     product_object.save()
     messages.success(request, 'Producto deletado com sucesso')
-    return redirect("index")
+    return redirect("products:index")
 
 def search_product(request):
     if not request.user.is_authenticated:
         messages.error(request, 'You are not logged in!')
-        return redirect('login_user')
+        return redirect('users:login_user')
     products = Product.objects.filter(disponibility=True)
     if 'search' in request.GET:
         search = request.GET['search']

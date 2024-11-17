@@ -32,13 +32,12 @@ class OrderAddView(TemplateView):
                 if order_item_form.is_valid():
                     order_item = order_item_form.save()
                     order.shoppinglist.add(order_item)
-            return redirect('index')
-        return self.render_to_response({'orderForm': order_Form, 'orderItemForm': orderItem_Form, })
+            return redirect('products:index')
 
 
 def update_order(request, order_id):
     order = Order.objects.get(pk=order_id)
-    form = OrderUpdateForm(instance=order)
+    upadateForm = OrderUpdateForm(instance=order)
     if request.method == 'POST':
         form = OrderUpdateForm(request.POST, instance=order)
         if form.is_valid():
@@ -46,5 +45,5 @@ def update_order(request, order_id):
                 order.completionDate = datetime.datetime.now()
             form.save()
 
-            return redirect('index')
-    return render(request, 'orders/update_order.html', {'form': form})
+            return redirect('products:index')
+    return render(request, 'orders/view_order.html', {'updateForm': upadateForm})

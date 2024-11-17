@@ -1,9 +1,31 @@
-{% block content %}
-    <form action="{% url 'users:create_user' %}" method="POST" enctype="multipart/form-data">
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Usuário</title>
+    <link rel="stylesheet" href="{% static 'users/register.css' %}">
+</head>
+<body>
+
+<form action="{% url 'users:create_user' %}" method="POST" enctype="multipart/form-data">
+        <h2>Registrar Loja</h2>
+        <div class="form-group">
+            {% block content %}
+
             {% csrf_token %}
                 {{ SupplierForm.as_p }}
                 {{ AdressUserForm.as_p }}
                 {{ BuyerUserForm.as_p }}
-                <button type="submit">Registrar</button>
+        <div class="button-group">
+            <button type="submit">Registrar</button>
+            <button type="button" class="cancelar">Cancelar</button>
+
+        </div>
+
+        </div>
     </form>
     {%endblock%}
+</body>
+</html>

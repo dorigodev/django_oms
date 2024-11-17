@@ -35,7 +35,7 @@ def login_user(request):
             if user is not None:
                 auth.login(request, user)
                 messages.success(request, 'You are now logged in!')
-                return redirect('index')
+                return redirect('products:index')
             else:
                 messages.error(request, 'Invalid email or password.')
     return render(request, 'users/login.html', {'form': form})
@@ -67,7 +67,7 @@ def create_user(request):
             new_adress.save()
             newBuyer.save()
             messages.success(request, 'Your account has been created.')
-            return redirect('login_user')
+            return redirect('users:login_user')
     return render(request, 'users/register_teste.html', {'SupplierForm': Supplier_Form, 'AdressUserForm':AdressUser_Form,
                                                                             'BuyerUserForm': BuyerUser_Form})
 
@@ -76,10 +76,10 @@ def create_user(request):
 def logout_user(request):
     auth.logout(request)
     messages.success(request, 'Logout efetuado com sucesso!')
-    return redirect("login_user")
+    return redirect("users:login_user")
 
 class ChangePasswordView(PasswordChangeView):
     form_class = PasswordChangeForm
-    success_url = reverse_lazy('')
+    success_url = reverse_lazy('users:login_user')
     template_name = 'users/change_password.html'
 

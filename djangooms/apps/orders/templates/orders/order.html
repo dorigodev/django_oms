@@ -1,76 +1,120 @@
-<form id="form-container" method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-            {{ orderForm.as_p }}
-            {{ orderItemForm.management_form }}
-            {% for form in orderItemForm %}
-                <div class="order-form">
-                     {{ form.as_p }}
+<!DOCTYPE html>
+{% load static %}
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Pedido</title>
+    <link rel="stylesheet" href="{% static 'orders/order.css' %}">
+</head>
+<body style="
+    background-image: linear-gradient(rgba(226, 221, 202, 0.7), rgba(226, 221, 202, 0.7)), url('/djangooms/apps/orders/static/stock/assets/fundomain.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+">
+
+    <main>
+        <form id="form-container" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card">
+                <h2>Formulário de Pedido</h2>
+
+                <!-- Parte superior: Loja e Forma de Retirada -->
+                <div class="lineInput">
+                    <div>
+                        {{ orderForm }}
+                    </div>
+
+                    <div>
+                    {{ orderItemForm.management_form }}
+                    </div>
                 </div>
-            {% endfor %}
-            <button id="add-form" type="button">adicionar novo produto</button>
-            <button type="submit">enviar</button>
-            <button><a href="{% url 'products:index'%}">Cancelar</a></button>
-      </form>
 
-<h2>Itens no Pedido:</h2>
-    <ul>
-            <li>
-                <button>
-                    <a href=""> Editar</a>
-                </button>
-            </li>
-            <li>
-                <button>
-                    <a href="">Deletar</a>
-                </button>
-            </li>
-            <li>Nenhum item adicionado</li>
-    </ul>
+                <!-- Parte inferior: Produto e Quantidade (vai ser duplicado quando clicar em adicionar novo produto) -->
+                <div class="order-products" id="order-products">
+                    <div class="lineInput product-line">
+                        <div>
+                    {% for form in orderItemForm %}
+                        <div class="order-form">
+                            {{ form.as_p}}
+                        </div>
+                                {% endfor %}
+                        </div>
 
-<script>
-    let orderForm = document.querySelectorAll(".order-form")
-    let container = document.querySelector("#form-container")
-    let addButton = document.querySelector("#add-form")
-    let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+                    </div>
+                </div>
 
-    let formNum = orderForm.length-1
-    addButton.addEventListener('click',addForm)
+                <button id="add-form" type="button">Adicionar</button>
 
-    function addForm(e){
-        e.preventDefault()
+                <div class="button-group">
+                    <button class="cancelar">Cancelar</button>
+                    <button type="submit">Enviar</button>
+                </div>
+            </div>
+        </form>
+    </main>
 
-        let newForm = orderForm[0].cloneNode(true)
-        let formRegex = RegExp(`form-(\\d){1}-`,'g')
+    <script>
+let orderForm = document.querySelectorAll(".order-form");
+let container = document.querySelector("#order-products"); // Contêiner correto onde os formulários estão
+let addButton = document.querySelector("#add-form");
+let totalForms = document.querySelector("#id_form-TOTAL_FORMS");
 
-        formNum++
-        newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
-        container.insertBefore(newForm, addButton)
-        totalForms.setAttribute('value', `${formNum+1}`)
+let formNum = orderForm.length - 1;
+addButton.addEventListener("click", addForm);
 
-        const newSelect = newForm.querySelector('select'); // Assumindo que há apenas um select por form
-        newSelect.addEventListener('change', updateSelectOptions);
-        updateSelectOptions(); // Atualiza opções para garantir que os já selecionados sejam desabilitados
+function addForm(e) {
+    e.preventDefault();
+
+    let newForm = orderForm[0].cloneNode(true);
+    let formRegex = RegExp(`form-(\\d){1}-`, "g");
+
+    formNum++;
+    newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`);
+
+    const lastForm = container.querySelector(".order-form:last-of-type"); // Localiza o último formulário
+    if (lastForm && lastForm.parentNode === container) {
+        // Se o último formulário for encontrado e estiver dentro do contêiner
+        container.insertBefore(newForm, lastForm.nextSibling);
+    } else {
+        // Fallback: Adiciona no final do contêiner se o último formulário não for encontrado corretamente
+        container.appendChild(newForm);
     }
 
-    function updateSelectOptions() {
-        // Coleta todos os selects de item
-        const selects = document.querySelectorAll('.order-form select');
-        const selectedValues = Array.from(selects).map(select => select.value).filter(value => value); // Filtra valores vazios
+    totalForms.setAttribute("value", `${formNum + 1}`);
 
-        selects.forEach(select => {
-            const options = select.querySelectorAll('option');
-            options.forEach(option => {
-                if (selectedValues.includes(option.value) && option.value !== select.value) {
-                    option.disabled = true; // Desabilita a opção se já estiver selecionada em outro select
-                } else {
-                    option.disabled = false; // Reabilita se não estiver selecionada
-                }
-            });
+    const newSelect = newForm.querySelector("select"); // Assumindo que há apenas um select por form
+    newSelect.addEventListener("change", updateSelectOptions);
+    updateSelectOptions(); // Atualiza opções para garantir que os já selecionados sejam desabilitados
+}
+
+function updateSelectOptions() {
+    // Coleta todos os selects de item
+    const selects = document.querySelectorAll(".order-form select");
+    const selectedValues = Array.from(selects)
+        .map(select => select.value)
+        .filter(value => value); // Filtra valores vazios
+
+    selects.forEach(select => {
+        const options = select.querySelectorAll("option");
+        options.forEach(option => {
+            if (selectedValues.includes(option.value) && option.value !== select.value) {
+                option.disabled = true; // Desabilita a opção se já estiver selecionada em outro select
+            } else {
+                option.disabled = false; // Reabilita se não estiver selecionada
+            }
         });
-    }
-
-    // Inicializa o evento change para todos os selects já existentes
-    document.querySelectorAll('.order-form select').forEach(select => {
-        select.addEventListener('change', updateSelectOptions);
     });
+}
+
+// Inicializa o evento change para todos os selects já existentes
+document.querySelectorAll(".order-form select").forEach(select => {
+    select.addEventListener("change", updateSelectOptions);
+});
+
 </script>
+</body>
+</html>

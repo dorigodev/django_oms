@@ -21,4 +21,4 @@ env
 logs
 stats
 Dockerfile
-__localcode/
+__localcode//.idea/

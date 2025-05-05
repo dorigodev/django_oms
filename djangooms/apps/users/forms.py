@@ -1,13 +1,9 @@
 from django import forms
-from django.contrib import messages
 import requests
-import json
-from django.contrib.auth.forms import UserCreationForm
 # Pesquisar sobre: from django.contrib.auth import password_validation
 from apps.users.models import BuyerUser
 from apps.users.models import SupplierUser
 from apps.users.models import AdressUser
-from django.contrib.auth import get_user_model
 
 
 class SupplierForm(forms.ModelForm):

@@ -6,6 +6,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100, null=False, blank=False)
     price = models.FloatField(max_length=50, null=False, blank=False)
     weight = models.FloatField(max_length=50, null=False, blank=False)
+    cost = models.FloatField(max_length=50, null=False, blank=False, default=0)
     description = models.CharField(max_length=200, null=False, blank=False)
     quantity = models.IntegerField(null=False, blank=False)
     disponibility = models.BooleanField(blank=False, default=True)
@@ -20,6 +21,12 @@ class Product(models.Model):
 
     def get_price(self):
         return self.price
+
+    def get_lucro(self):
+        return self.price - self.cost
+
+    def get_margem(self):
+        return round((self.get_lucro() / self.price) * 100)
 
     def get_quantity(self):
         return self.quantity

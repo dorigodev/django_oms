@@ -1,14 +1,11 @@
-from django.shortcuts import render
 
 # Create your views here.
 from django.shortcuts import render
 from django.db.models import Q
 from django.contrib import messages
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import redirect
 from apps.products.models import Product
 from apps.products.forms import ProductForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.admin.views.decorators import staff_member_required
 
 
 # Create your views here.
@@ -43,8 +40,11 @@ def index(request):
     else:
         quantity_total = 0
 
-
-    return render(request, 'stock/index.html', {'products': products, 'products_variety':products_count, 'total_price':new_total_stock_price, 'quantity': quantity_total})
+    return render(request, 'stock/index.html', {'products': products,
+                                                'products_variety':products_count,
+                                                'total_price':new_total_stock_price,
+                                                'quantity': quantity_total,
+                                                })
 
 
 def create_product(request):

@@ -8,6 +8,7 @@ class ProductForm(forms.ModelForm):
         labels = {
             'name': 'Nome do Produto',
             'price': 'Preço do Produto',
+            'cost':"Custo de produção",
             'weight': 'Peso do produto em kilos, considere: 0.150 para 60 caps, e 0.200 para 120 caps',
             'description': 'Breve descrição sobre o produto',
             'quantity': 'Quantidade do produto em stock',
@@ -19,6 +20,7 @@ class ProductForm(forms.ModelForm):
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'cost': forms.NumberInput(attrs={'class': 'form-control'}),
             'weight': forms.NumberInput(attrs={'class': 'form-control'}),
             'description': forms.TextInput(attrs={'class': 'form-control'}),
             'quantity': forms.NumberInput(attrs={'class': 'form-control'}),

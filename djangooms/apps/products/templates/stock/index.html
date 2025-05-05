@@ -77,6 +77,8 @@
                                 <h3 class="product-title">{{ product.name }}</h3>
                                 <p class="product-description">Descrição: {{ product.description}}</p>
                                 <p class="product-description">Preço: R$ {{ product.price }}</p>
+                                <p class="product-description">Lucro: R$ {{ product.get_lucro }}</p>
+                                <p class="product-description"> Margem de lucro: {{product.get_margem}}%</p>
                                 <p class="product-description">Em estoque: {{ product.quantity }} </p>
                                 <p class="product-description">Data de Compra: {{ product.get_date_formated }} </p>
                             </div>

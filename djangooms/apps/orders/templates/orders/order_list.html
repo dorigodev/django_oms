@@ -31,6 +31,8 @@
             <th scope="col">Lista de itens que foram pedidos</th>
             <th scope="col">Data da compra</th>
             <th scope="col">Tipo de entrega.</th>
+            <th scope="col">Custo total</th>
+            <th scope="col">Lucro total</th>
           </tr>
         </thead>
         <tbody id="tbody">
@@ -45,6 +47,9 @@
             </td>
             <td class="center">{{item.dateOrder}}</td>
             <td class="center">{{item.shipping}}</td>
+            <td class="center">{{item.get_total_cost}}</td>
+            <td class="center">{{item.get_total_profit}}</td>
+
         {% endfor %}
         </tbody>
       </table>

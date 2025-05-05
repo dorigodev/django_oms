@@ -16,6 +16,10 @@ class OrderItem(models.Model):
     def get_total_item_price(self):
         return self.item.price * self.quantity
 
+    def get_total_item_profit(self):
+        return (self.item.price - self.item.cost) * self.quantity
+
+
 
 class Order(models.Model):
     STATUS_CHOICES = (
@@ -45,3 +49,9 @@ class Order(models.Model):
     shipping = models.CharField(choices=SHIPPING_METHOD, null=False, blank=False)
     # status
     status = models.CharField(choices=STATUS_CHOICES, null=False, blank=False, default='Pending')
+
+    def get_total_cost(self):
+        return sum(item.get_total_item_price() for item in self.shoppinglist.all())
+
+    def get_total_profit(self):
+        return sum(item.get_total_item_profit() for item in self.shoppinglist.all())
